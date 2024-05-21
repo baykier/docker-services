@@ -1,0 +1,25 @@
+version: "2.1"
+
+services:
+  ### nacos
+  nacos:
+    image: baykier/nacos-server:${NACOS_VERSION}
+    environment:
+            - PREFER_HOST_MODE=hostname
+            - MODE=standalone
+            - SPRING_DATASOURCE_PLATFORM=mysql
+            - MYSQL_SERVICE_HOST=${MYSQL_SERVICE_HOST}
+            - MYSQL_SERVICE_DB_NAME=${MYSQL_SERVICE_DBNAME}
+            - MYSQL_SERVICE_USER=${MYSQL_SERVICE_USERNAME}
+            - MYSQL_SERVICE_PASSWORD=${MYSQL_SERVICE_PASSWORD}
+            - NACOS_DEBUG=true
+           # - NACOS_AUTH_TOKEN=${NACOS_AUTH_TOKEN}
+
+    # volumes:
+    #         - ./conf/custom.properties:/home/nacos/init.d/custom.properties
+    ports:
+            - "8848:8848"
+            - "9848:9848"
+    restart: always
+
+    

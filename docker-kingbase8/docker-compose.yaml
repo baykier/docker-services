@@ -1,0 +1,21 @@
+version: "2.1"
+
+services:
+  ### kingbase8r6
+  kingbase8r6:
+    image: zzj/kingbase:v8r6
+    ports:
+      - "54321:54321"
+    volumes:
+      - ./data:/home/kingbase/data
+      - ./license_29296_0.dat:/home/kingbase/Server/bin/license.dat
+    environment:
+      - SYSTEM_USER=${DB_USER}
+      - SYSTEM_PWD=${DB_PWD}
+      - ENCODING=UTF8
+      - DATABASE_MODE=${DB_MODE}
+      - CASE_SENSITIVE=0
+    privileged: true
+    restart: always
+
+    

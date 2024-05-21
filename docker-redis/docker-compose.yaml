@@ -1,0 +1,12 @@
+version: "2.1"
+
+services:
+  ### Redis
+  redis:
+    build:
+      context: ./build/
+    ports:
+      - "6379:6379"
+    restart: always
+
+    

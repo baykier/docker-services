@@ -1,0 +1,78 @@
+version: "2.1"
+
+services:
+  ### zookeeper
+  zookeeper:
+    image: baykier/zookeeper:3.8.3
+    ports:
+      - "8180:8080"
+      - "2181:2181"
+    volumes:
+      - ./data/zookeeper:/app/data
+    restart: always
+  ## master
+  ds-master:
+    image: baykier/dolphinscheduler-master:${DOLPHINSCHEDULER_VERSION}
+    environment:
+      - DATABASE=${DATABASE}
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - SPRING_JACKSON_TIME_ZONE=${SPRING_JACKSON_TIME_ZONE}
+      - REGISTRY_ZOOKEEPER_CONNECT_STRING=${REGISTRY_ZOOKEEPER_CONNECT_STRING}
+    network_mode: host
+    depends_on:
+      - zookeeper
+    volumes:
+      - ./data/dolphinscheduler:/app/data
+    restart: always
+  ### worker
+  ds-worker:
+    image: baykier/dolphinscheduler-worker:${DOLPHINSCHEDULER_VERSION}
+    environment:
+      - DATABASE=${DATABASE}
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - SPRING_JACKSON_TIME_ZONE=${SPRING_JACKSON_TIME_ZONE}
+      - REGISTRY_ZOOKEEPER_CONNECT_STRING=${REGISTRY_ZOOKEEPER_CONNECT_STRING}
+    network_mode: host
+    depends_on:
+      - ds-master
+    volumes:
+      - ./data/dolphinscheduler:/app/data
+    restart: always
+  ### api
+  ds-api:
+    image: baykier/dolphinscheduler-api:${DOLPHINSCHEDULER_VERSION}
+    environment:
+      - DATABASE=${DATABASE}
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - SPRING_JACKSON_TIME_ZONE=${SPRING_JACKSON_TIME_ZONE}
+      - REGISTRY_ZOOKEEPER_CONNECT_STRING=${REGISTRY_ZOOKEEPER_CONNECT_STRING}
+    network_mode: host
+    depends_on:
+      - ds-master
+    volumes:
+      - ./data/dolphinscheduler:/app/data
+    restart: always
+### alert
+  ds-alert:
+    image: baykier/dolphinscheduler-alert:${DOLPHINSCHEDULER_VERSION}
+    environment:
+      - DATABASE=${DATABASE}
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - SPRING_JACKSON_TIME_ZONE=${SPRING_JACKSON_TIME_ZONE}
+      - REGISTRY_ZOOKEEPER_CONNECT_STRING=${REGISTRY_ZOOKEEPER_CONNECT_STRING}
+    network_mode: host
+    depends_on:
+      - ds-master
+    volumes:
+      - ./data/dolphinscheduler:/app/data
+    restart: always
+
+    

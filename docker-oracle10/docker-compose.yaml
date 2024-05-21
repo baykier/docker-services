@@ -1,0 +1,17 @@
+version: "2.1"
+
+services:
+  ### oracle
+  oracle:
+    image: klwang/oracle10g
+    ports:
+      - "4521:1521"
+      - "4022:22"
+    #volumes:
+    #  - ./data:/u01/app/oracle
+    environment:
+      - ORACLE_DISABLE_ASYNCH_IO=true
+    privileged: true
+    restart: always
+
+    

@@ -1,0 +1,18 @@
+version: "2.1"
+
+services:
+  mysql-5.7:
+    image: baykier/mysql:5.7
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    volumes:
+      - ./data/mysql-5.7:/var/lib/mysql
+      - ./conf/my.cnf:/etc/my.cnf
+    ports:
+      - "3309:3306"
+    restart: unless-stopped
+
+    

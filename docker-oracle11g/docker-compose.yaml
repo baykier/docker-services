@@ -1,0 +1,17 @@
+version: "2.1"
+
+services:
+  ### oracle
+  oracle:
+    image: loliconneko/oracle-ee-11g
+    ports:
+      - "4521:1521"
+      - "1580:8080"
+    volumes:
+      - ./data:/u01/app/oracle
+    environment:
+      - ORACLE_DISABLE_ASYNCH_IO=true
+    privileged: true
+    restart: always
+
+    

@@ -1,0 +1,15 @@
+version: "2.1"
+
+services:
+  postgresql10:
+    image: bitnami/postgresql:10.22.0
+    volumes:
+      - ./data:/bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}
+      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
+
+    
